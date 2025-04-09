@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Toán Học - Chào Xuân</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://via.placeholder.com/1920x1080?text=Spring+Background') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .auth-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .auth-form {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 400px;
+            position: relative;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .auth-form h2 {
+            margin: 0 0 20px;
+            color: #d6336c;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1.8em;
+        }
+
+        .auth-form input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            font-size: 1em;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .auth-form button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #00c6ff, #0072ff);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1em;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .auth-form button:hover {
+            background: linear-gradient(45deg, #0072ff, #00c6ff);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .auth-error {
+            color: #dc3545;
+            font-size: 0.9em;
+            margin-top: 10px;
+            display: none;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .auth-toggle {
+            margin-top: 15px;
+            color: #0072ff;
+            cursor: pointer;
+            text-decoration: underline;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .auth-toggle:hover {
+            color: #00c6ff;
+        }
+
+        .moving-image-left, .moving-image-right {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            pointer-events: none;
+            z-index: 2001;
+        }
+
+        .moving-image-left {
+            background: url('https://via.placeholder.com/50x50?text=Flower') no-repeat center center;
+            background-size: contain;
+            left: -80px;
+        }
+
+        .moving-image-right {
+            background: url('https://via.placeholder.com/50x50?text=Butterfly') no-repeat center center;
+            background-size: contain;
+            right: -80px;
+        }
+
+        .main-content {
+            display: none;
+        }
+
+        header {
+            background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+            color: #d6336c;
+            text-align: center;
+            padding: 2em 0;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 3em;
+            font-family: 'Brush Script MT', cursive;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        header nav {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        header nav a {
+            color: #d6336c;
+            text-decoration: none;
+            margin: 0 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: color 0.3s, transform 0.2s;
+        }
+
+        header nav a:hover {
+            color: #ff5722;
+            transform: scale(1.1);
+        }
+
+        .logout-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #ff5722, #ff9800);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.9em;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .logout-button:hover {
+            background: linear-gradient(45deg, #ff9800, #ff5722);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .profile-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 60px;
+            height: 60px;
+            background: url('https://via.placeholder.com/60x60?text=Profile') no-repeat center center;
+            background-size: cover;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-button:hover {
+            transform: scale(1.1);
+        }
+
+        .profile-window {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 400px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            display: none;
+            flex-direction: column;
+            z-index: 2000;
+            font-family: 'Poppins', sans-serif;
+            animation: popIn 0.3s ease forwards;
+        }
+
+        @keyframes popIn {
+            from { transform: translate(-50%, -50%) scale(0.9); opacity: 0; }
+            to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        .profile-header {
+            background: linear-gradient(45deg, #28a745, #34c759);
+            color: white;
+            padding: 10px;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .profile-header h3 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+
+        .profile-header button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+
+        .profile-body {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .profile-body .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-size: cover;
+            margin: 0 auto;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-body .avatar:hover {
+            transform: scale(1.1);
+        }
+
+        .profile-body .name {
+            margin: 10px 0;
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #d6336c;
+            cursor: pointer;
+        }
+
+        .profile-body .name:hover {
+            color: #ff5722;
+        }
+
+        .profile-body .info {
+            margin: 10px 0;
+            font-size: 1em;
+            color: #333;
+        }
+
+        .profile-body .info span {
+            font-weight: 600;
+            color: #0072ff;
+        }
+
+        .profile-body .history {
+            margin-top: 15px;
+            text-align: left;
+            max-height: 150px;
+            overflow-y: auto;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+
+        .profile-body .history h4 {
+            margin: 0 0 10px;
+            font-size: 1.1em;
+            color: #d6336c;
+        }
+
+        .profile-body .history ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .profile-body .history li {
+            padding: 5px 0;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .profile-body .history li.correct {
+            color: #28a745;
+        }
+
+        .profile-body .history li.incorrect {
+            color: #dc3545;
+        }
+
+        .achievements {
+            margin-top: 15px;
+            text-align: left;
+            max-height: 150px;
+            overflow-y: auto;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+
+        .achievements h4 {
+            margin: 0 0 10px;
+            font-size: 1.1em;
+            color: #d6336c;
+        }
+
+        .achievements ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .achievements li {
+            padding: 8px 0;
+            font-size: 0.95em;
+            color: #28a745;
+            display: flex;
+            align-items: center;
+            transition: transform 0.2s ease;
+        }
+
+        .achievements li:hover {
+            transform: translateX(5px);
+        }
+
+        .achievement-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+            display: inline-block;
+            font-size: 1.2em;
+        }
+
+        .edit-form {
+            margin-top: 15px;
+            display: none;
+        }
+
+        .edit-form input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .edit-form select {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .edit-form button {
+            width: 100%;
+            padding: 8px;
+            margin-top: 10px;
+        }
+
+        .grade-buttons {
+            margin-top: 15px;
+        }
+
+        .grade-buttons button {
+            margin: 5px;
+            padding: 10px 20px;
+            background: linear-gradient(45deg, #ffeb3b, #ffc107);
+            color: #333;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .grade-buttons button:hover {
+            background: linear-gradient(45deg, #ff9800, #ff5722);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        main {
+            margin: 30px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            padding: 20px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+        }
+
+        section h2 {
+            margin-top: 0;
+            color: #d6336c;
+            font-family: 'Comic Sans MS', sans-serif;
+            font-size: 1.8em;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #333, #555);
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 1.3em;
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        button {
+            background: linear-gradient(45deg, #00c6ff, #0072ff);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1em;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(45deg, #0072ff, #00c6ff);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        ul {
+            padding-left: 25px;
+        }
+
+        ul li {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .falling-flowers {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .flower {
+            position: absolute;
+            top: -50px;
+            background-image: url('https://via.placeholder.com/40x40?text=Flower');
+            background-size: contain;
+            width: 40px;
+            height: 40px;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            from { transform: translateY(-100px) rotate(0deg); }
+            to { transform: translateY(100vh) rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .result { color: #28a745; font-weight: bold; margin-left: 10px; }
+        .error { color: #dc3545; font-weight: bold; margin-left: 10px; }
+        .exercise-input { padding: 5px; border-radius: 5px; border: 1px solid #ccc; margin: 0 10px; width: 100px; }
+
+        .chat-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: url('https://i.ibb.co/5vYkL2q/chat-icon.png') no-repeat center center;
+            background-size: cover;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .chat-button:hover {
+            transform: scale(1.1);
+        }
+
+        .chat-window {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 300px;
+            height: 400px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        .chat-header {
+            background: linear-gradient(45deg, #00c6ff, #0072ff);
+            color: white;
+            padding: 10px;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h3 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+
+        .chat-header button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+
+        .chat-body {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            background: #f9f9f9;
+        }
+
+        .chat-message {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+
+        .chat-message.user {
+            background: #0072ff;
+            color: white;
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .chat-message.bot {
+            background: #e9ecef;
+            color: #333;
+        }
+
+        .chat-footer {
+            padding: 10px;
+            border-top: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+        }
+
+        .chat-footer input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            margin-right: 10px;
+            outline: none;
+        }
+
+        .chat-footer button {
+            padding: 8px 16px;
+        }
+
+        /* CSS cho trò chơi */
+        #math-game {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        #math-game:hover {
+            transform: translateY(-5px);
+        }
+
+        #game-container {
+            text-align: center;
+        }
+
+        #game-question {
+            font-size: 1.5em;
+            color: #d6336c;
+            margin-bottom: 15px;
+        }
+
+        #game-input {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 100px;
+            margin-right: 10px;
+        }
+
+        #game-start, #game-check {
+            padding: 8px 16px;
+        }
+
+        #game-result {
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        #game-timer {
+            margin-top: 10px;
+            font-size: 1.1em;
+            color: #0072ff;
+        }
+
+        #timer {
+            font-weight: bold;
+            color: #ff5722;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container" id="loginContainer">
+        <div class="auth-form">
+            <h2>Đăng Nhập</h2>
+            <input type="text" id="loginUsername" placeholder="Tên đăng nhập" required>
+            <input type="password" id="loginPassword" placeholder="Mật khẩu" required>
+            <button onclick="handleLogin()">Đăng Nhập</button>
+            <div class="auth-error" id="loginError">Tên đăng nhập hoặc mật khẩu không đúng!</div>
+            <div class="auth-toggle" onclick="showSignup()">Chưa có tài khoản? Đăng ký ngay!</div>
+            <div class="moving-image-left" id="loginImageLeft"></div>
+            <div class="moving-image-right" id="loginImageRight"></div>
+        </div>
+    </div>
+
+    <div class="auth-container" id="signupContainer" style="display: none;">
+        <div class="auth-form">
+            <h2>Đăng Ký</h2>
+            <input type="text" id="signupUsername" placeholder="Tên đăng nhập" required>
+            <input type="password" id="signupPassword" placeholder="Mật khẩu" required>
+            <input type="password" id="signupConfirmPassword" placeholder="Xác nhận mật khẩu" required>
+            <button onclick="handleSignup()">Đăng Ký</button>
+            <div class="auth-error" id="signupError">Thông tin không hợp lệ!</div>
+            <div class="auth-toggle" onclick="showLogin()">Đã có tài khoản? Đăng nhập ngay!</div>
+            <div class="moving-image-left" id="signupImageLeft"></div>
+            <div class="moving-image-right" id="signupImageRight"></div>
+        </div>
+    </div>
+
+    <div class="main-content" id="mainContent">
+        <div class="falling-flowers"></div>
+        <header>
+            <h1>Chào Mừng Xuân Đến Với Trang Toán Học!</h1>
+            <nav>
+                <a href="#">Cộng, Trừ, Nhân, Chia</a>
+                <a href="#">Đại Số</a>
+                <a href="#">Hình Học</a>
+                <div class="grade-buttons">
+                    <button onclick="showExercises(1)">Lớp 1</button>
+                    <button onclick="showExercises(2)">Lớp 2</button>
+                    <button onclick="showExercises(3)">Lớp 3</button>
+                    <button onclick="showExercises(4)">Lớp 4</button>
+                    <button onclick="showExercises(5)">Lớp 5</button>
+                    <button onclick="showExercises(6)">Lớp 6</button>
+                    <button onclick="showExercises(7)">Lớp 7</button>
+                </div>
+            </nav>
+        </header>
+
+        <button class="logout-button" onclick="handleLogout()">Đăng Xuất</button>
+        <button class="profile-button" onclick="toggleProfile()"></button>
+
+        <div class="profile-window" id="profileWindow">
+            <div class="profile-header">
+                <h3>Hồ Sơ Học Sinh</h3>
+                <button onclick="toggleProfile()">×</button>
+            </div>
+            <div class="profile-body">
+                <div class="avatar" id="profileAvatar" onclick="toggleEditForm()"></div>
+                <div class="name" id="profileName" onclick="toggleEditForm()"></div>
+                <div class="edit-form" id="editForm">
+                    <input type="text" id="editName" placeholder="Nhập tên mới">
+                    <select id="editAvatar" onchange="previewAvatar()">
+                        <option value="">Chọn avatar</option>
+                        <option value="https://via.placeholder.com/80x80?text=Avatar1">Avatar 1</option>
+                        <option value="https://via.placeholder.com/80x80?text=Avatar2">Avatar 2</option>
+                        <option value="https://via.placeholder.com/80x80?text=Avatar3">Avatar 3</option>
+                    </select>
+                    <button onclick="saveProfile()">Lưu</button>
+                </div>
+                <div class="info">Số bài đã làm: <span id="profileExercises"></span></div>
+                <div class="info">Số điểm: <span id="profileScore"></span></div>
+                <div class="info">Lớp học: <span id="profileGrade"></span></div>
+                <div class="info">Ngày tham gia: <span id="profileJoinDate"></span></div>
+                <div class="achievements">
+                    <h4>Thành Tựu</h4>
+                    <ul id="profileAchievements"></ul>
+                </div>
+                <div class="history">
+                    <h4>Lịch Sử Làm Bài</h4>
+                    <ul id="exerciseHistory"></ul>
+                </div>
+            </div>
+        </div>
+
+        <main>
+            <section class="calculator">
+                <h2>Máy Tính</h2>
+                <input type="text" id="calc-input" placeholder="Nhập phép tính (vd: 5 + 3 * 2)">
+                <button onclick="calculate()">Tính</button>
+                <div id="calc-result" class="calculator-result">Kết quả sẽ hiển thị ở đây.</div>
+            </section>
+
+            <section id="math-game">
+                <h2>Trò Chơi: Tìm Số Nhanh</h2>
+                <div id="game-container">
+                    <p id="game-question">Nhấn "Bắt đầu" để chơi!</p>
+                    <input type="text" id="game-input" placeholder="Nhập đáp án" disabled>
+                    <button id="game-start" onclick="startGame()">Bắt đầu</button>
+                    <button id="game-check" onclick="checkGameAnswer()" style="display: none;">Kiểm Tra</button>
+                    <span id="game-result"></span>
+                    <div id="game-timer">Thời gian: <span id="timer">15</span>s</div>
+                </div>
+            </section>
+
+            <section id="exercise-list">
+                <h2>Bài Tập</h2>
+                <ul id="exercises">
+                    <li>Hãy chọn lớp để xem bài tập.</li>
+                </ul>
+            </section>
+
+            <section id="interesting-knowledge">
+                <h2>Các Kiến Thức Thú Vị Về Toán Học</h2>
+                <ul>
+                    <li><strong>Số Pi (π):</strong> Tỉ lệ chu vi và đường kính (~3.14159).</li>
+                    <li><strong>Dãy Fibonacci:</strong> 0, 1, 1, 2, 3, 5, 8...</li>
+                    <li><strong>Định lý Pythagore:</strong> \(a^2 + b^2 = c^2\).</li>
+                    <li><strong>Số nguyên tố:</strong> Chỉ chia hết cho 1 và chính nó.</li>
+                    <li><strong>Hình học không gian:</strong> Ứng dụng trong thực tế.</li>
+                </ul>
+            </section>
+        </main>
+
+        <div class="footer">
+            Trang web lan tỏa niềm vui toán học trong mùa xuân!
+        </div>
+
+        <button class="chat-button" onclick="toggleChat()"></button>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <h3>Chat với Grok</h3>
+                <button onclick="toggleChat()">×</button>
+            </div>
+            <div class="chat-body" id="chatBody">
+                <div class="chat-message bot">Xin chào! Tôi là Grok, trợ lý toán học của bạn. Bạn cần giúp gì? 😊</div>
+            </div>
+            <div class="chat-footer">
+                <input type="text" id="chatInput" placeholder="Nhập câu hỏi của bạn...">
+                <button onclick="sendMessage()">Gửi</button>
+            </div>
+        </div>
+    </div>
+
+    <audio id="correctSound" src="https://www.soundjay.com/buttons/beep-01a.mp3" preload="auto"></audio>
+    <audio id="wrongSound" src="https://www.soundjay.com/buttons/beep-02.mp3" preload="auto"></audio>
+    <audio id="achievementSound" src="https://www.soundjay.com/misc/sounds/bell-ring-01.mp3" preload="auto"></audio>
+
+    <script>
+        let studentProfile = {
+            exercisesCompleted: parseInt(localStorage.getItem('exercisesCompleted')) || 0,
+            score: parseInt(localStorage.getItem('score')) || 0,
+            currentGrade: localStorage.getItem('currentGrade') || 'Chưa chọn lớp',
+            joinDate: localStorage.getItem('joinDate') || new Date().toLocaleDateString('vi-VN'),
+            avatar: localStorage.getItem('avatar') || 'https://via.placeholder.com/80x80?text=Avatar',
+            history: JSON.parse(localStorage.getItem('exerciseHistory')) || [],
+            achievements: JSON.parse(localStorage.getItem('achievements')) || []
+        };
+
+        const achievementList = [
+            { id: 'first_step', name: 'Bước Đầu Tiên', icon: '🌟', condition: () => studentProfile.exercisesCompleted >= 1 },
+            { id: 'math_novice', name: 'Tân Binh Toán Học', icon: '📚', condition: () => studentProfile.exercisesCompleted >= 5 },
+            { id: 'math_enthusiast', name: 'Người Đam Mê Toán', icon: '❤️', condition: () => studentProfile.exercisesCompleted >= 10 },
+            { id: 'math_explorer', name: 'Nhà Thám Hiểm Toán', icon: '🗺️', condition: () => studentProfile.exercisesCompleted >= 20 },
+            { id: 'math_master', name: 'Bậc Thầy Toán Học', icon: '👑', condition: () => studentProfile.exercisesCompleted >= 50 },
+            { id: 'score_10', name: '10 Điểm Đầu Tiên', icon: '🏅', condition: () => studentProfile.score >= 10 },
+            { id: 'score_50', name: 'Chinh phục 50 Điểm', icon: '🥇', condition: () => studentProfile.score >= 50 },
+            { id: 'score_100', name: 'Đỉnh Cao 100 Điểm', icon: '🎖️', condition: () => studentProfile.score >= 100 },
+            { id: 'score_250', name: 'Siêu Sao 250 Điểm', icon: '🌠', condition: () => studentProfile.score >= 250 },
+            { id: 'score_500', name: 'Huyền Thoại 500 Điểm', icon: '🏆', condition: () => studentProfile.score >= 500 },
+            { id: 'grade_1_master', name: 'Chinh phục Lớp 1', icon: '🎓', condition: () => studentProfile.currentGrade === 'Lớp 1' && studentProfile.exercisesCompleted >= 10 },
+            { id: 'grade_3_master', name: 'Chinh phục Lớp 3', icon: '📏', condition: () => studentProfile.currentGrade === 'Lớp 3' && studentProfile.exercisesCompleted >= 15 },
+            { id: 'grade_5_master', name: 'Chinh phục Lớp 5', icon: '🧠', condition: () => studentProfile.currentGrade === 'Lớp 5' && studentProfile.exercisesCompleted >= 20 },
+            { id: 'quick_learner', name: 'Học Nhanh', icon: '⚡', condition: () => studentProfile.exercisesCompleted >= 5 && studentProfile.score >= 50 },
+            { id: 'geometry_guru', name: 'Guru Hình Học', icon: '📐', condition: () => studentProfile.history.some(h => h.question.includes('Diện tích') || h.question.includes('Chu vi')) && studentProfile.exercisesCompleted >= 10 },
+            { id: 'algebra_ace', name: 'Át Chủ Bài Đại Số', icon: '🔢', condition: () => studentProfile.exercisesCompleted >= 15 && studentProfile.score >= 150 },
+            { id: 'perfect_day', name: 'Ngày Hoàn Hảo', icon: '☀️', condition: () => studentProfile.history.slice(-5).every(h => h.result === 'Đúng') && studentProfile.history.length >= 5 },
+            { id: 'marathon_runner', name: 'Chạy Marathon Toán', icon: '🏃', condition: () => studentProfile.exercisesCompleted >= 30 },
+            { id: 'spring_star', name: 'Ngôi Sao Mùa Xuân', icon: '🌸', condition: () => studentProfile.score >= 200 && new Date().getMonth() === 2 },
+            { id: 'millionaire', name: 'Triệu Phú Toán Học', icon: '💰', condition: () => studentProfile.score >= 1000 }
+        ];
+
+        function updateAchievements() {
+            let newAchievementAdded = false;
+            achievementList.forEach(achievement => {
+                if (achievement.condition() && !studentProfile.achievements.some(a => a.id === achievement.id)) {
+                    studentProfile.achievements.push({ id: achievement.id, name: achievement.name, icon: achievement.icon });
+                    newAchievementAdded = true;
+                }
+            });
+            if (newAchievementAdded) {
+                document.getElementById('achievementSound').play();
+            }
+            localStorage.setItem('achievements', JSON.stringify(studentProfile.achievements));
+        }
+
+        document.getElementById('profileAvatar').style.backgroundImage = `url(${studentProfile.avatar})`;
+
+        window.onload = function() {
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('signupContainer').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+                createFallingFlowers();
+            }
+            updateAchievements();
+        };
+
+        function showSignup() {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('signupContainer').style.display = 'flex';
+        }
+
+        function showLogin() {
+            document.getElementById('signupContainer').style.display = 'none';
+            document.getElementById('loginContainer').style.display = 'flex';
+        }
+
+        function handleSignup() {
+            const username = document.getElementById('signupUsername').value.trim();
+            const password = document.getElementById('signupPassword').value.trim();
+            const confirmPassword = document.getElementById('signupConfirmPassword').value.trim();
+            const signupError = document.getElementById('signupError');
+
+            if (!username || !password || password !== confirmPassword) {
+                signupError.textContent = password !== confirmPassword ? 'Mật khẩu không khớp!' : 'Vui lòng điền đầy đủ thông tin!';
+                signupError.style.display = 'block';
+                return;
+            }
+
+            localStorage.setItem('username', username);
+            localStorage.setItem('password', password);
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('joinDate', new Date().toLocaleDateString('vi-VN'));
+
+            studentProfile.joinDate = new Date().toLocaleDateString('vi-VN');
+            localStorage.setItem('joinDate', studentProfile.joinDate);
+
+            document.getElementById('signupContainer').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+            createFallingFlowers();
+        }
+
+        function handleLogin() {
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            const loginError = document.getElementById('loginError');
+
+            const storedUsername = localStorage.getItem('username');
+            const storedPassword = localStorage.getItem('password');
+
+            if (username === storedUsername && password === storedPassword) {
+                localStorage.setItem('isLoggedIn', 'true');
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+                createFallingFlowers();
+            } else {
+                loginError.textContent = 'Tên đăng nhập hoặc mật khẩu không đúng!';
+                loginError.style.display = 'block';
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('isLoggedIn');
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('loginContainer').style.display = 'flex';
+        }
+
+        function toggleProfile() {
+            const profileWindow = document.getElementById('profileWindow');
+            profileWindow.style.display = profileWindow.style.display === 'flex' ? 'none' : 'flex';
+
+            document.getElementById('profileName').textContent = localStorage.getItem('username') || 'Học Sinh';
+            document.getElementById('profileExercises').textContent = studentProfile.exercisesCompleted;
+            document.getElementById('profileScore').textContent = studentProfile.score;
+            document.getElementById('profileGrade').textContent = studentProfile.currentGrade;
+            document.getElementById('profileJoinDate').textContent = studentProfile.joinDate;
+            document.getElementById('profileAvatar').style.backgroundImage = `url(${studentProfile.avatar})`;
+
+            const achievementsList = document.getElementById('profileAchievements');
+            achievementsList.innerHTML = '';
+            if (studentProfile.achievements.length === 0) {
+                const li = document.createElement('li');
+                li.textContent = 'Chưa có thành tựu nào!';
+                achievementsList.appendChild(li);
+            } else {
+                studentProfile.achievements.forEach(achievement => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<span class="achievement-icon">${achievement.icon}</span> ${achievement.name}`;
+                    achievementsList.appendChild(li);
+                });
+            }
+
+            const historyList = document.getElementById('exerciseHistory');
+            historyList.innerHTML = '';
+            studentProfile.history.forEach(entry => {
+                const li = document.createElement('li');
+                li.textContent = `${entry.question} - ${entry.result}`;
+                li.className = entry.result === 'Đúng' ? 'correct' : 'incorrect';
+                historyList.appendChild(li);
+            });
+        }
+
+        function toggleEditForm() {
+            const editForm = document.getElementById('editForm');
+            editForm.style.display = editForm.style.display === 'block' ? 'none' : 'block';
+            document.getElementById('editName').value = localStorage.getItem('username') || 'Học Sinh';
+        }
+
+        function previewAvatar() {
+            const avatarSelect = document.getElementById('editAvatar');
+            const avatar = document.getElementById('profileAvatar');
+            if (avatarSelect.value) {
+                avatar.style.backgroundImage = `url(${avatarSelect.value})`;
+            }
+        }
+
+        function saveProfile() {
+            const newName = document.getElementById('editName').value.trim();
+            const newAvatar = document.getElementById('editAvatar').value;
+
+            if (newName) {
+                localStorage.setItem('username', newName);
+                document.getElementById('profileName').textContent = newName;
+            }
+
+            if (newAvatar) {
+                studentProfile.avatar = newAvatar;
+                localStorage.setItem('avatar', newAvatar);
+                document.getElementById('profileAvatar').style.backgroundImage = `url(${newAvatar})`;
+            }
+
+            toggleEditForm();
+        }
+
+        document.addEventListener('mousemove', function(e) {
+            const loginImageLeft = document.getElementById('loginImageLeft');
+            const loginImageRight = document.getElementById('loginImageRight');
+            const signupImageLeft = document.getElementById('signupImageLeft');
+            const signupImageRight = document.getElementById('signupImageRight');
+
+            const form = document.querySelector('.auth-form');
+            const formRect = form.getBoundingClientRect();
+            const formCenterX = formRect.left + formRect.width / 2;
+            const formCenterY = formRect.top + formRect.height / 2;
+
+            if (loginImageLeft && loginImageRight) {
+                loginImageLeft.style.transform = `translate(${e.clientX - formCenterX - 80}px, ${e.clientY - formCenterY}px)`;
+                loginImageRight.style.transform = `translate(${e.clientX - formCenterX + 80}px, ${e.clientY - formCenterY}px)`;
+            }
+            if (signupImageLeft && signupImageRight) {
+                signupImageLeft.style.transform = `translate(${e.clientX - formCenterX - 80}px, ${e.clientY - formCenterY}px)`;
+                signupImageRight.style.transform = `translate(${e.clientX - formCenterX + 80}px, ${e.clientY - formCenterY}px)`;
+            }
+        });
+
+        function createFallingFlowers() {
+            const container = document.querySelector('.falling-flowers');
+            for (let i = 0; i < 50; i++) {
+                const flower = document.createElement('div');
+                flower.classList.add('flower');
+                flower.style.left = `${Math.random() * 100}vw`;
+                flower.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                flower.style.animationDelay = `${Math.random() * 5}s`;
+                container.appendChild(flower);
+            }
+        }
+
+        function calculate() {
+            const calcInput = document.getElementById('calc-input').value.trim();
+            const resultDiv = document.getElementById('calc-result');
+            
+            try {
+                const safeEval = new Function(`return ${calcInput}`);
+                const result = safeEval();
+                if (isNaN(result) || !isFinite(result)) {
+                    throw new Error('Kết quả không hợp lệ');
+                }
+                resultDiv.innerHTML = `<span class="result">Kết quả: ${result}</span>`;
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">Lỗi phép tính! Vui lòng kiểm tra lại.</span>`;
+            }
+        }
+
+        let gameTimer;
+        let timeLeft = 15;
+        let currentGameAnswer;
+
+        function startGame() {
+            const a = Math.floor(Math.random() * 20) + 1;
+            const b = Math.floor(Math.random() * 20) + 1;
+            const operators = ['+', '-', '×'];
+            const operator = operators[Math.floor(Math.random() * operators.length)];
+            
+            switch (operator) {
+                case '+': currentGameAnswer = a + b; break;
+                case '-': currentGameAnswer = a - b; break;
+                case '×': currentGameAnswer = a * b; break;
+            }
+
+            document.getElementById('game-question').textContent = `${a} ${operator} ${b} = ?`;
+            document.getElementById('game-input').value = '';
+            document.getElementById('game-input').disabled = false;
+            document.getElementById('game-result').textContent = '';
+            document.getElementById('game-start').style.display = 'none';
+            document.getElementById('game-check').style.display = 'inline-block';
+            
+            timeLeft = 15;
+            document.getElementById('timer').textContent = timeLeft;
+            clearInterval(gameTimer);
+            gameTimer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(gameTimer);
+                    document.getElementById('game-result').textContent = 'Hết giờ! Thử lại nhé!';
+                    document.getElementById('wrongSound').play();
+                    resetGame();
+                }
+            }, 1000);
+        }
+
+        function checkGameAnswer() {
+            const userAnswer = parseInt(document.getElementById('game-input').value);
+            const resultSpan = document.getElementById('game-result');
+
+            if (isNaN(userAnswer)) {
+                resultSpan.textContent = 'Nhập số hợp lệ!';
+                resultSpan.className = 'error';
+                document.getElementById('wrongSound').play();
+            } else if (userAnswer === currentGameAnswer) {
+                resultSpan.textContent = 'Chính xác! 🎉';
+                resultSpan.className = 'result';
+                studentProfile.score += 5;
+                studentProfile.exercisesCompleted += 1;
+                document.getElementById('correctSound').play();
+                updateAchievements();
+                localStorage.setItem('score', studentProfile.score);
+                localStorage.setItem('exercisesCompleted', studentProfile.exercisesCompleted);
+                clearInterval(gameTimer);
+                resetGame();
+            } else {
+                resultSpan.textContent = `Sai rồi! Đáp án là ${currentGameAnswer}`;
+                resultSpan.className = 'error';
+                document.getElementById('wrongSound').play();
+                clearInterval(gameTimer);
+                resetGame();
+            }
+        }
+
+        function resetGame() {
+            document.getElementById('game-input').disabled = true;
+            document.getElementById('game-start').style.display = 'inline-block';
+            document.getElementById('game-check').style.display = 'none';
+        }
+
+        function showExercises(grade) {
+            const exercises = document.getElementById('exercises');
+            exercises.innerHTML = '';
+
+            studentProfile.currentGrade = `Lớp ${grade}`;
+            localStorage.setItem('currentGrade', studentProfile.currentGrade);
+
+            const exerciseData = {
+                1: [
+                    { question: '1. 4 + 3 = ?', id: 'ex1-1', answer: 7 },
+                    { question: '2. 8 - 5 = ?', id: 'ex1-2', answer: 3 },
+                    { question: '3. Đếm số quả táo: 🍎🍎🍎 = ?', id: 'ex1-3', answer: 3 },
+                    { question: '4. Số cạnh của hình vuông?', id: 'ex1-4', answer: 4 },
+                    { question: '5. Diện tích hình vuông cạnh 3 cm?', id: 'ex1-5', answer: 9 }
+                ],
+                2: [
+                    { question: '1. 15 + 7 = ?', id: 'ex2-1', answer: 22 },
+                    { question: '2. 20 - 12 = ?', id: 'ex2-2', answer: 8 },
+                    { question: '3. 6 × 4 = ?', id: 'ex2-3', answer: 24 },
+                    { question: '4. Chu vi hình chữ nhật: dài 5 cm, rộng 3 cm?', id: 'ex2-4', answer: 16 },
+                    { question: '5. Diện tích hình tam giác: đáy 6 cm, cao 4 cm?', id: 'ex2-5', answer: 12 }
+                ],
+                3: [
+                    { question: '1. 45 + 29 = ?', id: 'ex3-1', answer: 74 },
+                    { question: '2. 72 - 38 = ?', id: 'ex3-2', answer: 34 },
+                    { question: '3. 9 × 7 = ?', id: 'ex3-3', answer: 63 },
+                    { question: '4. Chu vi hình tròn: bán kính 5 cm? (π ≈ 3.14)', id: 'ex3-4', answer: 31.4 },
+                    { question: '5. Diện tích hình thang: đáy lớn 8 cm, đáy nhỏ 4 cm, cao 3 cm?', id: 'ex3-5', answer: 18 }
+                ],
+                4: [
+                    { question: '1. 68 + 47 = ?', id: 'ex4-1', answer: 115 },
+                    { question: '2. 95 - 56 = ?', id: 'ex4-2', answer: 39 },
+                    { question: '3. 15 × 6 = ?', id: 'ex4-3', answer: 90 },
+                    { question: '4. Diện tích hình bình hành: đáy 7 cm, cao 5 cm?', id: 'ex4-4', answer: 35 },
+                    { question: '5. Chu vi hình vuông: cạnh 9 cm?', id: 'ex4-5', answer: 36 }
+                ],
+                5: [
+                    { question: '1. 123 + 89 = ?', id: 'ex5-1', answer: 212 },
+                    { question: '2. 150 - 67 = ?', id: 'ex5-2', answer: 83 },
+                    { question: '3. 12 × 13 = ?', id: 'ex5-3', answer: 156 },
+                    { question: '4. Diện tích hình thoi: đường chéo 12 cm, 8 cm?', id: 'ex5-4', answer: 48 },
+                    { question: '5. Thể tích hình lập phương: cạnh 5 cm?', id: 'ex5-5', answer: 125 }
+                ],
+                6: [
+                    { question: '1. 234 + 178 = ?', id: 'ex6-1', answer: 412 },
+                    { question: '2. 345 - 129 = ?', id: 'ex6-2', answer: 216 },
+                    { question: '3. 25 × 16 = ?', id: 'ex6-3', answer: 400 },
+                    { question: '4. Diện tích hình tròn: bán kính 7 cm? (π ≈ 3.14)', id: 'ex6-4', answer: 153.94 },
+                    { question: '5. Thể tích hình hộp chữ nhật: dài 6 cm, rộng 4 cm, cao 3 cm?', id: 'ex6-5', answer: 72 }
+                ],
+                7: [
+                    { question: '1. 456 + 789 = ?', id: 'ex7-1', answer: 1245 },
+                    { question: '2. 987 - 654 = ?', id: 'ex7-2', answer: 333 },
+                    { question: '3. 34 × 12 = ?', id: 'ex7-3', answer: 408 },
+                    { question: '4. Diện tích mặt cầu: bán kính 5 cm? (π ≈ 3.14)', id: 'ex7-4', answer: 314 },
+                    { question: '5. Thể tích hình trụ: bán kính 3 cm, cao 7 cm? (π ≈ 3.14)', id: 'ex7-5', answer: 197.82 }
+                ]
+            };
+
+            const selectedExercises = exerciseData[grade] || [{ question: 'Hãy chọn lớp để xem bài tập.', id: '', answer: null }];
+            
+            selectedExercises.forEach(ex => {
+                const li = document.createElement('li');
+                li.innerHTML = ex.answer !== null 
+                    ? `${ex.question} <input type="text" class="exercise-input" id="${ex.id}"> <button onclick="checkAnswer('${ex.id}', ${ex.answer}, '${ex.question}')">Kiểm tra</button>`
+                    : ex.question;
+                exercises.appendChild(li);
+            });
+        }
+
+        function checkAnswer(inputId, correctAnswer, question) {
+            const inputField = document.getElementById(inputId);
+            const userAnswer = inputField.value.trim();
+            const resultSpan = inputField.nextElementSibling.nextElementSibling || document.createElement('span');
+
+            if (!userAnswer || isNaN(parseFloat(userAnswer))) {
+                resultSpan.textContent = 'Vui lòng nhập số hợp lệ!';
+                resultSpan.className = 'error';
+                document.getElementById('wrongSound').play();
+            } else {
+                const parsedAnswer = parseFloat(userAnswer);
+                const result = parsedAnswer === correctAnswer ? 'Đúng' : 'Sai';
+                if (result === 'Đúng') {
+                    resultSpan.textContent = 'Đúng rồi! 🎉';
+                    resultSpan.className = 'result';
+                    studentProfile.exercisesCompleted += 1;
+                    studentProfile.score += 10;
+                    document.getElementById('correctSound').play();
+                    updateAchievements();
+                } else {
+                    resultSpan.textContent = `Sai rồi, đáp án đúng là: ${correctAnswer}`;
+                    resultSpan.className = 'error';
+                    document.getElementById('wrongSound').play();
+                }
+
+                studentProfile.history.push({ question, result });
+                localStorage.setItem('exerciseHistory', JSON.stringify(studentProfile.history));
+                localStorage.setItem('exercisesCompleted', studentProfile.exercisesCompleted);
+                localStorage.setItem('score', studentProfile.score);
+            }
+
+            if (!resultSpan.parentNode) {
+                inputField.parentNode.appendChild(resultSpan);
+            }
+        }
+
+        function toggleChat() {
+            const chatWindow = document.getElementById('chatWindow');
+            chatWindow.style.display = chatWindow.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function sendMessage() {
+            const chatInput = document.getElementById('chatInput');
+            const chatBody = document.getElementById('chatBody');
+            const message = chatInput.value.trim();
+
+            if (!message) return;
+
+            const userMessage = document.createElement('div');
+            userMessage.className = 'chat-message user';
+            userMessage.textContent = message;
+            chatBody.appendChild(userMessage);
+
+            setTimeout(() => {
+                const botMessage = document.createElement('div');
+                botMessage.className = 'chat-message bot';
+                botMessage.textContent = getGrokResponse(message);
+                chatBody.appendChild(botMessage);
+
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }, 500);
+
+            chatInput.value = '';
+        }
+
+        function getGrokResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            if (lowerMessage.includes('giúp') || lowerMessage.includes('hỗ trợ')) {
+                return 'Chắc chắn rồi! Bạn đang gặp khó khăn ở bài toán nào? Hãy mô tả chi tiết để tôi giúp nhé!';
+            } else if (lowerMessage.includes('cộng') || lowerMessage.includes('trừ') || lowerMessage.includes('nhân') || lowerMessage.includes('chia')) {
+                return 'Hãy gửi phép tính cụ thể, tôi sẽ giải giúp bạn! Ví dụ: 5 + 3 = ?';
+            } else if (lowerMessage.includes('hình học') || lowerMessage.includes('diện tích') || lowerMessage.includes('chu vi')) {
+                return 'Bạn cần giúp về hình học? Hãy cho tôi biết bài toán cụ thể, ví dụ: "Tính diện tích hình tròn với bán kính 5 cm".';
+            } else {
+                return 'Tôi chưa hiểu rõ câu hỏi của bạn. Bạn có thể nói chi tiết hơn không? 😊';
+            }
+        }
+
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
